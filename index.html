@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎂 生日快乐 🎂</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #f6d365, #fda085);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* 背景渐变动画 */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 主卡片 */
+        .birthday-card {
+            background: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            max-width: 520px;
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+            animation: cardIn 1s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes cardIn {
+            0% { opacity: 0; transform: translateY(50px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* 标题 */
+        .title {
+            font-size: 42px;
+            color: #ff4081;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(255, 64, 129, 0.2);
+        }
+
+        /* 名字 */
+        .to-name {
+            font-size: 26px;
+            color: #ff5722;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        /* 蛋糕图标 */
+        .cake {
+            width: 140px;
+            margin: 20px auto;
+            animation: bounce 1.8s infinite alternate ease-in-out;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-12px); }
+        }
+
+        /* 祝福语 */
+        .wishes {
+            font-size: 18px;
+            line-height: 1.9;
+            color: #555;
+            margin: 25px 0;
+        }
+
+        /* 按钮 */
+        .play-btn {
+            padding: 14px 35px;
+            background: linear-gradient(90deg, #ff4081, #ff5722);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(255, 64, 129, 0.3);
+            margin-top: 15px;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.07);
+            box-shadow: 0 12px 25px rgba(255, 64, 129, 0.4);
+        }
+
+        /* 气球特效 */
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 55px;
+            height: 75px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: fly 7s linear infinite;
+            opacity: 0.85;
+        }
+
+        @keyframes fly {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.9; }
+            100% { transform: translateY(-100vh) rotate(10deg); opacity: 0; }
+        }
+
+        /* 小星星特效 */
+        .star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="birthday-card">
+        <h1 class="title">🎂 生日快乐 🎂</h1>
+        <div class="to-name">亲爱的朋友</div>
+
+        <img class="cake" src="https://picsum.photos/id/407/300/300" alt="生日蛋糕">
+
+        <div class="wishes">
+            愿你岁岁常欢愉，年年皆胜意<br>
+            平安喜乐，万事顺遂，无忧无虑<br>
+            所念皆如愿，所行皆坦途<br>
+            永远被爱，永远发光，永远热烈自由
+        </div>
+
+        <button class="play-btn" onclick="playSong()">播放生日歌 🎵</button>
+        <audio id="birthdaySong" loop></audio>
+    </div>
+
+    <script>
+        // 可用的生日歌音频（公开有效链接）
+        const songUrl = "https://assets.mixkit.co/sfx/preview/mixkit-cartoon-birthday-jingle-2459.mp3";
+
+        // 播放音乐
+        function playSong() {
+            const audio = document.getElementById("birthdaySong");
+            audio.src = songUrl;
+            audio.play();
+            alert("🎂 生日快乐！愿所有美好都如约而至～");
+        }
+
+        // 生成气球
+        function createBalloons() {
+            const colors = ["#ff7675", "#fd79a8", "#74b9ff", "#a29bfe", "#00b894", "#ffeaa7", "#fab1a0"];
+            for (let i = 0; i < 20; i++) {
+                const balloon = document.createElement("div");
+                balloon.classList.add("balloon");
+                balloon.style.left = Math.random() * 100 + "vw";
+                balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.animationDelay = Math.random() * 6 + "s";
+                balloon.style.animationDuration = (Math.random() * 3 + 5) + "s";
+                document.body.appendChild(balloon);
+            }
+        }
+
+        // 生成星星
+        function createStars() {
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement("div");
+                star.classList.add("star");
+                star.style.left = Math.random() * 100 + "vw";
+                star.style.top = Math.random() * 100 + "vh";
+                document.body.appendChild(star);
+            }
+        }
+
+        window.onload = () => {
+            createBalloons();
+            createStars();
+        };
+    </script>
+</body>
+</html>
