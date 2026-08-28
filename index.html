@@ -751,7 +751,7 @@
             <div class="hint-image" id="hintImage">
                 <!-- 默认显示 emoji 占位，您可替换为 <img src="..." /> -->
                 <!-- <span style="font-size:5rem;">🎁</span> -->
-                <img src="Screenshot 2026-08-28 164403.png" alt="提示图片" id="hintImg" />
+                <img src="Note.png" alt="提示图片" id="hintImg" />
             </div>
 
             <div class="decrypt-input-area">
@@ -818,6 +818,7 @@
             <div class="hint">✨ 点击任意位置 · 绽放烟花 ✨</div>
         </div>
     </div>
+    <audio id="birthdaySong" src="happy-birthday.mp3" loop preload="auto"></audio>
 
     <script>
         // ============================================================
@@ -1075,9 +1076,10 @@
         //  6. 🔐 解密逻辑
         // ============================================================
         const PASSWORD = '0828'; // 预设密码，可修改
-        const HINT_IMAGE_SRC = 'Screenshot 2026-08-28 164403.png';
+        const HINT_IMAGE_SRC = 'Note.png';
         const WRONG_IMAGE_SRC = 'wrong.gif';
         const RIGHT_IMAGE_SRC = 'right.gif';
+        const SONG_SRC = 'happy-birthday.mp3';
         const decryptPage = document.getElementById('decryptPage');
         const birthdayPage = document.getElementById('birthdayPage');
         const passwordInput = document.getElementById('passwordInput');
@@ -1086,7 +1088,21 @@
         const hintImg = document.getElementById('hintImg');
         const stickerEmoji = document.getElementById('stickerEmoji');
         const showHintBtn = document.getElementById('showHintBtn');
+        const birthdaySong = document.getElementById('birthdaySong');
         const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
+        function playBirthdaySong() {
+            if (!birthdaySong.src.endsWith(SONG_SRC)) {
+                birthdaySong.src = SONG_SRC;
+            }
+            birthdaySong.volume = 0.8;
+            const playPromise = birthdaySong.play();
+            if (playPromise) {
+                playPromise.catch(() => {
+                    decryptError.textContent = '🎵 已解锁，点一下页面即可播放生日歌～';
+                });
+            }
+        }
 
         function tryUnlock() {
             const input = passwordInput.value.trim().toLowerCase();
@@ -1095,6 +1111,7 @@
                 decryptError.textContent = '';
                 showHintBtn.hidden = true;
                 stickerEmoji.src = RIGHT_IMAGE_SRC;
+                playBirthdaySong();
                 decryptPage.style.opacity = '0';
                 decryptPage.style.transform = 'scale(0.92)';
                 setTimeout(() => {
@@ -1145,6 +1162,11 @@
         });
         passwordInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') tryUnlock();
+        });
+        birthdayPage.addEventListener('click', () => {
+            if (birthdayPage.classList.contains('active') && birthdaySong.paused) {
+                playBirthdaySong();
+            }
         });
 
         // ============================================================
