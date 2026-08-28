@@ -1086,6 +1086,7 @@
         const hintImg = document.getElementById('hintImg');
         const stickerEmoji = document.getElementById('stickerEmoji');
         const showHintBtn = document.getElementById('showHintBtn');
+        const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
 
         function tryUnlock() {
             const input = passwordInput.value.trim().toLowerCase();
@@ -1129,7 +1130,11 @@
                 hintImg.src = WRONG_IMAGE_SRC;
                 showHintBtn.hidden = false;
                 passwordInput.value = '';
-                passwordInput.focus();
+                if (isTouchDevice) {
+                    passwordInput.blur();
+                } else {
+                    passwordInput.focus();
+                }
             }
         }
 
